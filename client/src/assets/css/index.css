@@ -1,0 +1,69 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+
+:root {
+    --color_primary: #FF43F7;
+    --font_primary : 'Roboto', sans-serif;
+}
+.navbar-collapse{
+    justify-content: space-between;
+    
+}
+.form-inline {
+    display: flex;
+}
+.icon-nav{
+    color : black; 
+    font-size : 1.5em;
+    cursor : pointer; 
+    margin-left : 10px; 
+    margin-right : 10px
+}
+.navbar-expand-lg{
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.nav-item a{
+    font-size: 22px;
+    color: black;
+    margin-left: 4px;
+    margin-right: 4px;
+    font-family: var(--font_primary );
+}   
+.nav-item a:hover, .nav-item a:active{
+    font-size: 22px;
+    color: black;
+    margin-left: 4px;
+    margin-right: 4px;
+    font-family: var(--font_primary );
+}   
+.logo-medium{
+    width:"60px";
+     height:"40px";
+}
+#carouselExampleDark{
+    width: 50vw;
+}
+.contain-list-activity{
+    margin-top: 80px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: var(--font_primary );  
+}
+.card{
+    border-style: none !important;
+    margin: auto;
+}
+.row{
+    width: 100%;
+}
+
+.card-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
