@@ -1,7 +1,6 @@
 import React from "react";
 import "./ModalNotify.css";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 
 const ModalWritePost = ({ showModal, setModal }) => {
   const navigate = useNavigate();

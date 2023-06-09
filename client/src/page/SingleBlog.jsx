@@ -1,11 +1,13 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState,  } from "react";
 import { AiFillEye, AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { useParams, useNavigate  } from "react-router-dom";
 import { getBlog, increaseLove, decreaseLove, updateView, deleteBlog } from "../api/Blog";
 import Comment from "../components/Comment/Comment";
 import parse from "html-react-parser";
 import { BsFillTrashFill } from "react-icons/bs";
-
+import { getBlogs } from "../api/Blog";
+import Spinner from "../components/Spinner/Spinner";
+import "../assets/css/singBlog.css"
 
 const SinglePost = () => {
   const navigate = useNavigate();
@@ -17,22 +19,32 @@ const SinglePost = () => {
   useEffect(() => {
     updateView(id_log);
   }, []);
+  
   const [itemBlog, setItemBlog] = useState(null);
   const [isLoved, setIsLoved] = useState(false);
+  const [diffNumberLove, setDiffNumberLove] =useState(0)
   const [statusDelete, setStatusDelete] = useState(false);
-
+  const [listBlog, setListBlog] = useState(null);
   useEffect(() => {
+    window.scrollTo(0, 0);
     getBlog(id_log, setItemBlog);
-  }, [isLoved]);
+    getBlogs(setListBlog); 
+  }, []);
 
   const handleLove = () => {
-    if (isLoved) decreaseLove(id_log);
-    else increaseLove(id_log);
-    setIsLoved(!isLoved);
+    setIsLoved(!isLoved); 
+    if(isLoved)
+    {
+      setDiffNumberLove(diffNumberLove-1);
+      decreaseLove(id_log);
+    }
+    else {
+      setDiffNumberLove(diffNumberLove+1); 
+      increaseLove(id_log); 
+    }
   };
 
-  const handleDeletePost = () => {
-    console.log("Hello ")
+  const handleDeletePost = () => { 
     if(itemBlog)
       deleteBlog(id_log, itemBlog.thumbnail,setStatusDelete);
   };
@@ -44,10 +56,28 @@ const SinglePost = () => {
     }
   },[statusDelete]);
 
+  const statusIconLove = () =>{
+    if(!isLoved)
+      return  <AiOutlineHeart
+                    size="30px"
+                    color="#FF4493" 
+                  />
+      return <AiFillHeart
+        size="30px"
+        color="#FF4493" 
+      />
+  }
+
+  const handleDirect=(linkDirect)=>{
+    navigate(linkDirect);
+    window.location.reload();
+  }
+
   return (
     <div className="container" style={{ marginTop: "50px" }}>
+      {!itemBlog && <Spinner />}
       <div className="row justify-content-md-center">
-        {itemBlog && (
+        {itemBlog &&   (
           <div className="col-lg-8">
             <h1>{itemBlog.title}</h1>
             <div
@@ -71,16 +101,8 @@ const SinglePost = () => {
                 </div>
               </div>
 
-          {currentUser && currentUser.is_admin &&    <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  gap: "15px",
-                }}
-              >
-                <button
-                  className="btn btn-outline-primary btn-lg"
+          { currentUser?.is_admin && <div style={styles.contain_btn_edit}>
+                <button className="btn btn-outline-primary btn-lg"
                   onClick={handleDeletePost}
                 >
                   Cập nhật <BsFillTrashFill size="20px" />
@@ -93,7 +115,7 @@ const SinglePost = () => {
                 </button>
               </div>}
             </div>
-            <img src={itemBlog.thumbnail} style={styles.blog_thumbnail} />
+            <img src={itemBlog.thumbnail} alt="" style={styles.blog_thumbnail} />
             <span style={{ lineHeight: "28px", marginTop: "10px" }}>
               {parse(itemBlog.content)}
             </span>
@@ -107,58 +129,33 @@ const SinglePost = () => {
                   <AiFillEye size="30px" /> {itemBlog.number_view} lượt xem
                 </p>
               )}
-              {!isLoved ? (
-                <p style={{ cursor: "pointer" }}>
-                  <AiOutlineHeart
-                    size="30px"
-                    color="#FF4493"
-                    onClick={handleLove}
-                  />
-                  {itemBlog.number_love} yêu thích
-                </p>
-              ) : (
-                <p style={{ cursor: "pointer" }}>
-                  <AiFillHeart
-                    size="30px"
-                    color="#FF4493"
-                    onClick={handleLove}
-                  />
-                  {itemBlog.number_love} yêu thích
-                </p>
-              )}
+            
+              <p style={{ cursor: "pointer" }} onClick={handleLove}>
+                {statusIconLove()} {itemBlog.number_love + diffNumberLove} yêu thích
+              </p>
+            
             </div>
             <div className="row justify-content-md-center">
               <div className="form-group">
+                {/* Whole component commment */}
                 <Comment idLog={id_log} />
               </div>
-              {[
-                {
-                  image:
-                    "https://static.wixstatic.com/media/nsplsh_2d74597350464b4d6d3767~mv2_d_6000_4000_s_4_2.jpg/v1/fill/w_925,h_616,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/nsplsh_2d74597350464b4d6d3767~mv2_d_6000_4000_s_4_2.jpg",
-                  title: "KỸ NĂNG QUAN TRỌNG NHẤT ĐỂ THÀNH CÔNG",
-                },
-                {
-                  image:
-                    "https://static.wixstatic.com/media/nsplsh_2d74597350464b4d6d3767~mv2_d_6000_4000_s_4_2.jpg/v1/fill/w_925,h_616,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/nsplsh_2d74597350464b4d6d3767~mv2_d_6000_4000_s_4_2.jpg",
-                  title: "KỸ NĂNG QUAN TRỌNG NHẤT ĐỂ THÀNH CÔNG",
-                },
-                {
-                  image:
-                    "https://static.wixstatic.com/media/nsplsh_2d74597350464b4d6d3767~mv2_d_6000_4000_s_4_2.jpg/v1/fill/w_925,h_616,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/nsplsh_2d74597350464b4d6d3767~mv2_d_6000_4000_s_4_2.jpg",
-                  title: "KỸ NĂNG QUAN TRỌNG NHẤT ĐỂ THÀNH CÔNG",
-                },
-              ].map((value, index) => {
-                return (
-                  <div className="col-lg-4 justify-content-center" key={index}>
-                    <img
-                      src={value.image}
-                      alt=""
-                      style={{ maxWidth: "100%" }}
-                    />
-                    <span style={{ fontSize: "14px" }}>{value.title}</span>
-                  </div>
-                );
-              })}
+              <div className="contain_post_relate">
+                  {listBlog && listBlog.slice(0,3).map((value, index) => {
+                    const linkDirect = `/list-blog/${value.id}`
+                    return (
+                      <div style={{cursor:"pointer"}} key={index} onClick={()=>handleDirect(linkDirect)}>
+                        <img
+                          src={value.thumbnail}
+                          alt=""
+                          style={{ maxWidth: "100%", height:"80%" }}
+                        />
+                        <span style={{ fontSize: "14px", color:"black", textDecoration:"none" }}>{value.title}</span>
+                      </div>
+                    );
+                  })}
+              </div>
+           
             </div>
           </div>
         )}
@@ -190,5 +187,14 @@ export const styles = {
     borderWidth: "0px",
     borderTopWidth: "1px",
   },
+  contain_post_relate:{
+    display:"grid",
+  },
+  contain_btn_edit:{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: "15px",
+  }
 };
 export default SinglePost;

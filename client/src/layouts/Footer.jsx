@@ -1,12 +1,30 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import "../assets/css/index.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ImFacebook2, ImYoutube } from "react-icons/im";
 import { GrInstagram } from "react-icons/gr";
 import { FaTiktok } from "react-icons/fa";
-
+import { getBlogs } from "../api/Blog";
+import { Link } from "react-router-dom";
 const Footer = () => {
   const currentURL = useLocation().pathname;
+  const navigate = useNavigate();
+  const [listBlog, setListBlog] = useState(null);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    getBlogs(setListBlog);
+  }, []);
+  const shortageTitle =(title)=>{
+    if(title.length >10)
+    {
+      return title.slice(0,40) +"..."
+    }
+    return title
+  }
+  const handleDirect=(linkDirect)=>{
+    navigate(linkDirect);
+    window.location.reload();
+  }
   return (
     <>
       {/* {currentURL.includes("listvlog/") ? (
@@ -72,31 +90,30 @@ const Footer = () => {
                   <h6 className="text-uppercase fw-bold mb-4">
                     BÀI VIẾT MỚI NHẤT
                   </h6>
-                  <p>
-                    <a href="#!" className="text-reset">
-                      TITLE OF BLOG 1 | BLOG | MÂY
-                    </a>
-                  </p>
-                  <p>
-                    <a href="#!" className="text-reset">
-                      TITLE OF BLOG 1 | BLOG | MÂY
-                    </a>
-                  </p>
-                  <p>
-                    <a href="#!" className="text-reset">
-                      TITLE OF BLOG 1 | BLOG | MÂY
-                    </a>
-                  </p>
+                  {
+                    listBlog && listBlog.map((item, index)=>{
+                      const linkTo = `/list-blog/${item.id}`;
+                      return(
+                        index <=2 &&
+                        <p>
+                          <Link href="#!" className="text-reset" to={linkTo} onClick={()=>handleDirect(linkTo)}>
+                            {shortageTitle(item.title)}
+                          </Link>
+                        </p>
+                      )
+                    })
+                  }
+               
                 </div>
 
                 <div className="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
                   <h6 className="text-uppercase fw-bold mb-4">CHIA SẺ</h6>
-                  <p style={{}}>
+                  <p>
                     <span style={{ fontStyle: "italic", fontSize: "18px" }}>
                       Nếu cậu có câu chuyện muốn chia sẻ hay cảm nhận của cậu
-                      khi đến với Vân Mây Đây, vui lòng gửi về địa chỉ :
+                      khi đến với Vân Mây Đây, vui lòng gửi về địa chỉ:
                     </span>
-
+                    <br/>
                     <a
                       style={{
                         color: "#FD7F38",
@@ -118,7 +135,7 @@ const Footer = () => {
           >
             © 2023 Copyright:
             <a className="text-reset fw-bold" href="">
-              TanKaka123
+              VanMayDay
             </a>
           </div>
         </footer>

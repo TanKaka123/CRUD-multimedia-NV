@@ -1,31 +1,37 @@
 import React, { useEffect, useState, useRef } from "react";
-import { createParentComment, getComments, regetApiComments } from "../../api/Comment";
+import { createParentComment, getComments } from "../../api/Comment";
 import ItemComment from "./ItemComment";
+import SpinnerCircle from "../SpinnerCircle"
+
+
+{/* Whole component commment */}
 
 const Comment = ({ idLog }) => {
   const [inputComment, setInputComment] = useState("");
+  const [isLoading, setIsLoading] = useState(false)
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem("user") || null)
   );
+
   const [listComments, setListComments] = useState(null);
-  const getApiComments = () => {
-    getComments(idLog, setListComments);
-  };
-  const handleSend = () => {
-    createParentComment(idLog, currentUser, inputComment);
-    setInputComment("");
-    regetApiComments(idLog, setListComments);
-    console.log(listComments)
+  const handleSend = async () => {
+     setIsLoading(true)
+     setTimeout(()=>{
+       createParentComment(idLog, currentUser, inputComment, setListComments, setIsLoading); 
+    },500)
+
+    setInputComment("");  
+    
   };
   useEffect(() => {
-    getApiComments();
+    getComments(idLog, setListComments);
   }, []);
 
   return (
+    // input bar that use to type comments
     <div>
       <div style={{ marginBottom: "30px" }}>
-        <label htmlFor="exampleFormControlTextarea1">Bình luận </label>
-
+        <label htmlFor="exampleFormControlTextarea1">Bình luận </label> 
         <textarea
           style={styles.comment_input}
           value={inputComment}
@@ -44,6 +50,8 @@ const Comment = ({ idLog }) => {
         </button>
       </div>
 
+       {/* display current comments in the system  */}
+     {isLoading && <SpinnerCircle/>} 
       <div>
         {listComments &&
           listComments.map((value, index) => {

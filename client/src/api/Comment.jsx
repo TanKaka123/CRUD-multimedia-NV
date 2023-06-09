@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const createParentComment = (idLog, currentUser,inputComment) => {
+const createParentComment = (idLog, currentUser,inputComment, setListComments, setIsLoading) => {
    var id="123", fullname="Ẩn danh", avatar="https://i.ibb.co/SxhgkWD/chicken.png"
     if(currentUser)
    {
@@ -9,15 +9,15 @@ const createParentComment = (idLog, currentUser,inputComment) => {
     avatar = currentUser.avatar
    }
   axios
-    .post(``,{
-       
+    .post(`https://backend-nv.vercel.app/api/v1/comment/${idLog}`,{ 
         content:inputComment,
         author_id:id,
         full_name_author:fullname,
         avatar_author:avatar,
     })
     .then((response) => { 
-      console.log(response.data);
+      setListComments(prevData => [response.data,...prevData]); 
+      setIsLoading(false);
     })
     .catch((error) => {
       console.log("Error get Vlog", error);
@@ -32,23 +32,15 @@ const createChildComment = (idLog, idParent,  currentUser,inputComment) => {
    fullname=currentUser.fullname
    avatar = currentUser.avatar
   }
-  console.log(`}`,{
-      
-  content:inputComment,
-  author_id:id,
-  full_name_author:fullname,
-  avatar_author:avatar
-})
  axios
-   .post(``,{
-      
+   .post(`https://backend-nv.vercel.app/api/v1/comment/${idLog}/${idParent}`,{    
        content:inputComment,
        author_id:id,
        full_name_author:fullname,
        avatar_author:avatar
    })
    .then((response) => { 
-     console.log(response.data);
+    console.log(response);
    })
    .catch((error) => {
      console.log("Error get Vlog", error);
@@ -57,9 +49,9 @@ const createChildComment = (idLog, idParent,  currentUser,inputComment) => {
 const getComments = (idLog, setComments) => {
 
    axios
-     .get(``)
+     .get(`https://backend-nv.vercel.app/api/v1/comment/${idLog}`)
      .then((response) => { 
-        console.log(response.data)
+
         setComments(response.data);
      })
      .catch((error) => {
@@ -70,9 +62,8 @@ const getComments = (idLog, setComments) => {
  const getChildComments = (idLog, idParent, setComments) => {
 
   axios
-    .get(``)
+    .get(`https://backend-nv.vercel.app/api/v1/comment/${idLog}/${idParent}`)
     .then((response) => { 
-       console.log(response.data)
        setComments(response.data);
     })
     .catch((error) => {
@@ -83,7 +74,7 @@ const getComments = (idLog, setComments) => {
 const regetApiComments = (idLog, setComments) => {
 
   axios
-    .get(``)
+    .get(`https://backend-nv.vercel.app/api/v1/comment/${idLog}`)
     .then((response) => {     
        setComments(prevData => [response.data[0],...prevData]);
     })
@@ -92,4 +83,4 @@ const regetApiComments = (idLog, setComments) => {
     });
 };
 
-export { createParentComment, getComments, createChildComment, getChildComments, regetApiComments };
+export { createParentComment, getComments, createChildComment, getChildComments,  };

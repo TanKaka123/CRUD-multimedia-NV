@@ -163,3 +163,39 @@ h1.heading {
 .width{
   width:100%;
 }
+
+
+.grid-container{
+  display: grid;
+  grid-template-columns:  repeat(2,30%);
+  justify-content: center; 
+  align-items: center; 
+  grid-gap: 10px;
+}
+
+
+.container-list-post{
+  display: grid;
+  grid-template-columns: repeat(3,30vw);
+  grid-gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 767px) {
+  .grid-container{
+    grid-template-columns:  repeat(1,95%);
+  }
+  .container-list-post{
+    grid-template-columns: repeat(1,90vw);
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width:991px){
+  .grid-container{
+    grid-template-columns:  repeat(2,45%);
+  }
+  .container-list-post{
+    grid-template-columns: repeat(2,45vw);
+  }
+}

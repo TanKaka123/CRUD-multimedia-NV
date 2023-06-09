@@ -1,27 +1,25 @@
 import axios from "axios";
 
-const getBlogs = (setListBlog,setLoading) => {
+const getBlogs = (setListBlog, setLoading = ()=>{}) => {
   axios
-    .get("")
+    .get("https://backend-nv.vercel.app/api/v1/blog")
     .then((response) => {
       setListBlog(response.data);
       setLoading(false)
     })
     .catch((error) => {
-      console.log("Error get Blog", error);
+      console.log(error)
     });
 };
 
 const getBlog = (param, setItemBlog) => {
-  console.log("dsadsadas");
   axios
     .get(`https://backend-nv.vercel.app/api/v1/blog/${param}`)
     .then((response) => {
-      console.log(response.data);
       setItemBlog(response.data);
     })
     .catch((error) => {
-      console.log("Error get Blog", error);
+      console.log(error)
     });
 };
 
@@ -35,70 +33,62 @@ const PostBlog = (valueBlog, currentUser, setStatus) => {
   formData.append("title", valueBlog.title);
   formData.append("content", valueBlog.content);
   axios
-    .post("", formData, {
+    .post(`https://backend-nv.vercel.app/api/v1/blog`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       }
     })
     .then((response) => {
-      console.log("DATA BLOG", response.data);
       setStatus(true)
     })
     .catch((error) => {
       setStatus(false)
-      console.log("Error BLOG ", error);
     });
 };
-// increaseLove
-// decreaseLove
-// updateView
 
 const deleteBlog =(id, thumbnail, setStatusDelete)=>{
 
   const lastIndex = thumbnail.lastIndexOf('/');
   let result = thumbnail.substring(lastIndex + 1);
 
-  console.log(result)
   axios
-    .delete(``)
+    .delete(`https://backend-nv.vercel.app/api/v1/blog/${id}/${result}`)
     .then((respnse)=>{
       setStatusDelete(true);
     })
     .catch((error)=>{
-      console.log(error)
       setStatusDelete(false); 
     })
 }
 const increaseLove = (idPost) => {
   axios
-    .post(``)
+    .post(`https://backend-nv.vercel.app/api/v1/blog/increaseLove/${idPost}`)
     .then((response) => {
-      console.log("success");
+      console.log("Increased")
     })
     .catch((error) => {
-      console.log("Error BLOG ", error);
+      console.log(error)
     });
 };
 
 const decreaseLove = (idPost) => {
   axios
-    .post(``)
+    .post(`https://backend-nv.vercel.app/api/v1/blog/decreaseLove/${idPost}`)
     .then((response) => {
-      console.log("success");
+
     })
     .catch((error) => {
-      console.log("Error BLOG ", error);
+      console.log(error)
     });
 };
 
 const updateView = (idPost) => {
   axios
-    .post(``)
+    .post(`https://backend-nv.vercel.app/api/v1/blog/updateView/${idPost}`)
     .then((response) => {
-      console.log("success");
     })
     .catch((error) => {
-      console.log("Error BLOG ", error);
+      console.log(error)
     });
 };
 

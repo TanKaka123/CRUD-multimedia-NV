@@ -3,7 +3,7 @@ import axios from "axios";
 const getVlogs = (setListVlog, setLoading) => {
  
   axios
-    .get("")
+    .get(`https://backend-nv.vercel.app/api/v1/vlog`)
     .then((response) => {
       setListVlog(response.data);
       setLoading(false)
@@ -15,7 +15,7 @@ const getVlogs = (setListVlog, setLoading) => {
 
 const getVlog = (param, setItemVlog) => {
   axios
-    .get(``)
+    .get(`https://backend-nv.vercel.app/api/v1/vlog/${param}`)
     .then((response) => {
       setItemVlog(response.data);
     })
@@ -36,7 +36,7 @@ const postVlog = (inputs, currentUser, setStatusPost) => {
   formData.append("video_url", inputs.video_url);
   console.log(formData)
   axios
-    .post("", formData, {
+    .post(`https://backend-nv.vercel.app/api/v1/vlog`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       }
@@ -53,10 +53,8 @@ const deleteVlog =(id, thumbnail, setStatusDelete)=>{
 
   const lastIndex = thumbnail.lastIndexOf('/');
   let result = thumbnail.substring(lastIndex + 1);
-
-  console.log(result)
   axios
-    .delete(``)
+    .delete(`https://backend-nv.vercel.app/api/v1/vlog/${id}/${result}`)
     .then((respnse)=>{
       setStatusDelete(true);
     })

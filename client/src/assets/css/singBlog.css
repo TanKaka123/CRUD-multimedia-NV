@@ -1,0 +1,11 @@
+.contain_post_relate {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-gap:15px;
+}
+
+@media screen and (max-width:991px){
+    .contain_post_relate {
+        display: none;
+    }
+}

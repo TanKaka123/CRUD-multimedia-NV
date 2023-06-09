@@ -4,7 +4,7 @@ import listAvatarDefault from "../data/avatarDefault.json";
 
 const login = (setCurrentUser, setStatus, username, password) => {
   axios
-    .post(``, {
+    .post(`https://backend-nv.vercel.app/api/v1/auth/login`, {
       username: username,
       password: password,
     })
@@ -29,7 +29,7 @@ const register = (currentAccount, setStatus) => {
   const indexRandom = Math.floor(Math.random() * listAvatarDefault.length);
 
   axios
-    .post(``, {
+    .post(`https://backend-nv.vercel.app/api/v1/auth/register`, {
       username: currentAccount.username,
       password: currentAccount.password,
       email: currentAccount.email,

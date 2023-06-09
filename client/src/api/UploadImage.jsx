@@ -2,13 +2,12 @@ import axios from "axios";
 
 const uploadImage = (inputs,setImageUrl) => {
   let formData = new FormData();
-  console.log("imageeee")
   formData.append("photo", inputs.thumbnail);
   axios
-    .post("", formData, {
+    .post(`https://backend-nv.vercel.app/file`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
-      },
+      },  
     })
     .then((response) => {
         setImageUrl(response.data);

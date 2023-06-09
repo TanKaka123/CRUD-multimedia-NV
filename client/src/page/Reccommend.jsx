@@ -12,7 +12,12 @@ const Reccommend = () => {
       );
     
     useEffect(()=>{
-        getReviews(setListReviews, setLoading)
+        getReviews(setListReviews, setLoading);
+        setTimeout(()=>{
+          if(openLoading){
+              setLoading(false);
+          }
+      },3000)
     },[]);
     const getText=(html)=>{
         const doc = new DOMParser().parseFromString( html ,"text/html")

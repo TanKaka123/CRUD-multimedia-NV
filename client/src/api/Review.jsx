@@ -3,7 +3,7 @@ import axios from "axios";
 
 const getReviews = (setListReview, setLoading) => {
   axios
-    .get("")
+    .get(`https://backend-nv.vercel.app/api/v1/review`)
     .then((response) => {
       setListReview(response.data);
       setLoading(false)
@@ -15,7 +15,7 @@ const getReviews = (setListReview, setLoading) => {
 
 const getReview = (param, setItemReview) => {
   axios
-    .get(``)
+    .get(`https://backend-nv.vercel.app/api/v1/review/${param}`)
     .then((response) => {
       setItemReview(response.data);
     })
@@ -27,7 +27,7 @@ const getReview = (param, setItemReview) => {
 const PostReview = ( valueReview, thumbnail, currentUser ) => {
  
   axios
-    .post("https://backend-nv.vercel.app/api/v1/review", {
+    .post(`https://backend-nv.vercel.app/api/v1/review`, {
         id_author: currentUser.id,
         name_author: currentUser.fullname,
         avatar_author: currentUser.avatar,
@@ -51,7 +51,7 @@ const deleteReview =(id, thumbnail)=>{
 
   console.log(result)
   axios
-    .delete(``)
+    .delete(`https://backend-nv.vercel.app/api/v1/review/${id}`)
     .then((response)=>{
       
     })

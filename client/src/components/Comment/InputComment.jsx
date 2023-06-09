@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { createChildComment } from "../../api/Comment";
 
-const InputComment = ({ setIsInputRep, idLog, valueParent, setIsOpenChildComment, setRefresgChildComment }) => {
+const   InputComment = ({ setIsInputRep, idLog, valueParent, setIsOpenChildComment, setRefresgChildComment }) => {
   const [inputComment, setInputComment] = useState("");
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem("user") || null)

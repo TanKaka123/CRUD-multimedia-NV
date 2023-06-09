@@ -7,24 +7,23 @@ import MainRoute from "./route/MainRoute";
 import { useLocation } from "react-router-dom";
 import Login from "./page/Login";
 
-
 function App() {
   const location = useLocation();
 
   return (
-    <div className="App text" style={{marginTop:"0px", minHeight:"100vh"}}>
-      {
-        location.pathname === "/login" || location.pathname === "/register" || location.pathname.includes("list-vlog/watch/")? 
-          ( <MainRoute /> ) : 
-       
-          (  <div style={{position:"relative"}}> 
-              <Header />
-              <div style={{marginBottom:"90px"}}></div>
-              <MainRoute />
-              <Footer />
-            </div>)
-          
-      }
+    <div className="App text" style={{ marginTop: "0px", minHeight: "100vh" }}>
+      {location.pathname === "/login" ||
+      location.pathname === "/register" ||
+      location.pathname.includes("list-vlog/watch/") ? (
+        <MainRoute />
+      ) : (
+        <div style={{ position: "relative" }}>
+          <Header />
+          <div style={{ marginBottom: "70px" }}></div> 
+          <MainRoute />
+          <Footer />
+        </div>
+      )}
     </div>
   );
 }

@@ -29,7 +29,7 @@ const WriteVlog = () => {
 
   const handleSubmit = () => {
   const notEmpty = Object.values(inputs).every((x) => x !== null && x !== "");
-  console.log(inputs)
+  console.log(currentUser)
   if (notEmpty) {
   
     postVlog(inputs, currentUser, setStatusPost);

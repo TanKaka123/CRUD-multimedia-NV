@@ -13,6 +13,11 @@ function ListVlog() {
     useEffect(() => {
         window.scrollTo(0, 0);
         getVlogs(setListVlog,setLoading)
+        setTimeout(()=>{
+            if(openLoading){
+                setLoading(false);
+            }
+        },3000)
       }, []);
 
       const getText=(html)=>{
@@ -33,12 +38,12 @@ function ListVlog() {
         <div className="container-fostrap"> 
         <Title content="VLOG"/>
             <div className="content"  style={{marginTop:"70px"}}>
-                <div className="container">
-                    <div className="row">
+                <div className="container-list-post">
+                   
                         { listVlog && listVlog.map((value, index)=>{
                                     const linkTo = `/list-vlog/watch/${value.id}`;
                                     return (
-                                        <Link  className="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4" 
+                                        <Link  
                                         to={linkTo} style={{textDecoration:"none", color:"black"}} 
                                         type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal"
                                         key={index}
@@ -64,7 +69,7 @@ function ListVlog() {
                                     )
                             })
                         } 
-                    </div>
+                 
                 </div>
             </div>
         </div>

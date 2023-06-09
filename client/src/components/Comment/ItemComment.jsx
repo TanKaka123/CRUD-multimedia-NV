@@ -4,6 +4,7 @@ import InputComment from "./InputComment";
 import ListCommentsRep from "./ListCommentsRep";
 
 const ItemComment = ({ value, idLog }) => {
+  console.log("Valueeeee", value)
   const [isOpenInputRep, setIsInputRep] = useState(false);
   const [isOpenChildComment, setIsOpenChildComment] = useState(false);
   const [refreshChildComment, setRefresgChildComment] = useState(false);
@@ -29,12 +30,13 @@ const ItemComment = ({ value, idLog }) => {
       <button
         style={styles.item_comment_button_rep}
         onClick={() => {
-          setIsInputRep(!isOpenInputRep);
-         
+          setIsInputRep(!isOpenInputRep); 
         }}
       >
-        <GoCommentDiscussion /> Replysss
+        <GoCommentDiscussion /> Reply
       </button>
+
+
       {isOpenInputRep && (
         <div style={styles.child_comment_input}>
           <InputComment
@@ -54,7 +56,7 @@ const ItemComment = ({ value, idLog }) => {
           </div>
         ) : (
           <div>
-            {value.number_child > 0 && (
+            { (
               <button
                 style={{
                   fontWeight: "500",
